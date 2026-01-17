@@ -8,7 +8,7 @@ from datetime import datetime
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.fernet import Fernet
-
+# 
 class PasswordDB:
     def __init__(self, db_path="vault.db"):
         self.conn = sqlite3.connect(db_path)
