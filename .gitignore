@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+
+# Banco de Dados Local (Segurança!)
+vault.db
+
+# Compilação e Executáveis
+build/
+dist/
+*.spec
+
+# Arquivos temporários/Hooks
+pre-push.txt
