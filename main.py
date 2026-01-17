@@ -76,18 +76,23 @@ class WalletApp(ctk.CTk):
         
         ctk.CTkLabel(set_pop, text="Opções de Dados", font=("Roboto", 16, "bold")).pack(pady=20)
         
+        # Os botões já estão vinculados às funções abaixo
         ctk.CTkButton(set_pop, text="Importar CSV", command=self.import_data).pack(pady=10, padx=20, fill="x")
         ctk.CTkButton(set_pop, text="Exportar CSV", command=self.export_data).pack(pady=10, padx=20, fill="x")
         ctk.CTkButton(set_pop, text="Backup Banco (.db)", command=self.backup_db).pack(pady=10, padx=20, fill="x")
         
         ctk.CTkLabel(set_pop, text="v2.5 Local Storage", font=("Roboto", 10), text_color="gray").pack(side="bottom", pady=10)
 
+    # NOVO IMPORTADOR AJUSTADO
     def import_data(self):
         path = fd.askopenfilename(filetypes=[("CSV", "*.csv")])
         if path:
             if self.db.import_from_csv(self.cipher, path):
                 messagebox.showinfo("Sucesso", "Dados importados com sucesso!")
                 self.refresh_list()
+            else:
+                messagebox.showerror("Erro de Formatação", 
+                    "Não foi possível importar. Verifique se o CSV possui os cabeçalhos:\nServico, URL, Usuario, Senha")
 
     def export_data(self):
         path = fd.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV", "*.csv")])

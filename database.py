@@ -93,12 +93,24 @@ class PasswordDB:
 
     def import_from_csv(self, cipher, filepath):
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open(filepath, 'r', encoding='utf-8-sig') as f: # 'utf-8-sig' lida com arquivos do Excel
+                # Usamos o DictReader mas limpamos possíveis espaços em branco nos nomes das colunas
                 reader = csv.DictReader(f)
+                reader.fieldnames = [name.strip() for name in reader.fieldnames]
+                
                 for row in reader:
-                    self.add_entry(cipher, row['Servico'], row['URL'], row['Usuario'], row['Senha'])
+                    # Garantimos que os campos existam, mesmo que vazios ou com espaços
+                    service = row.get('Servico', '').strip()
+                    url = row.get('URL', '').strip()
+                    user = row.get('Usuario', '').strip()
+                    pwd = row.get('Senha', '').strip()
+                    
+                    if service and pwd: # Só importa se tiver pelo menos o nome e a senha
+                        self.add_entry(cipher, service, url, user, pwd)
             return True
-        except: return False
+        except Exception as e:
+            print(f"Erro detalhado na importação: {e}")
+            return False
 
     def backup_database(self, destination_folder):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
