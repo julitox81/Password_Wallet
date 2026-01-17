@@ -12,3 +12,6 @@ dist/
 
 # Arquivos temporários/Hooks
 pre-push.txt
+
+# Documentação técnica
+DOCUMENTATION.md
